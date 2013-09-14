@@ -20,6 +20,7 @@ function set_html() {
 };
 
 function refresh() {
+  $('#showtemps').html("Updating...");
   get_temps();
   setTimeout(function() { set_html() }, 800);
 };

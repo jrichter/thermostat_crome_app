@@ -1,6 +1,6 @@
 var forecast;
 
-function get_temps() {
+function get_forecast() {
   return $.ajax({
     url: 'http://5.jetfive.com',
     type: 'GET',

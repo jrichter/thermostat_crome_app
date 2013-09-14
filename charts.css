@@ -1,0 +1,27 @@
+body {
+  margin: auto;
+  background-color: rgb(66,66,66);
+  color: rgb(233,233,233);
+  font-family: Arial, sans-serif;
+}
+
+nav {
+  float:right;
+  width: 20px;
+  height: 40px;
+  padding: 0 1px 0 1px;
+  font-weight: bold;
+  opacity: 0;
+  -webkit-transition: all 0.3s ease-in-out;
+  z-index:2;
+}
+
+nav:hover {
+  opacity: 1;
+}
+
+#charts-close-button {
+  float: right;
+  width: 18px;
+  height: 18px;
+  padding: 0 1px 0 1px;

@@ -38,6 +38,19 @@ function init() {
   $('#refresh-button').click(function() {
     refresh();
   });
+
+  $('#chart-link').click(function() {
+    chrome.app.window.create('charts.html', {
+      'id': 'charts-window',
+      'bounds': {
+        'width': 200,
+        'height': 400,
+        'left': 2,
+        'top': screen.availHeight -445
+      },
+      'frame': 'none'
+    });
+  });
   
 };
 

@@ -26,6 +26,19 @@ p {
   z-index: 1;
 }
 
+#chart-link {
+  font-size: 10px;
+  margin-left:2px;
+  margin-top:34px;
+  color: rgb(78,179,211);
+  z-index:3;
+}
+
+#chart-link a {
+  z-index:4;
+  padding:4px;
+}
+
 nav {
   left: 80px;
   position:absolute;

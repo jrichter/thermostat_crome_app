@@ -25,3 +25,11 @@ nav:hover {
   width: 18px;
   height: 18px;
   padding: 0 1px 0 1px;
+}
+
+#container {
+  margin:auto;
+  width:90%;
+  height:99%;
+  padding: 25px 5px 5px 5px;
+}

@@ -44,7 +44,7 @@ function init() {
     chrome.app.window.create('charts.html', {
       'id': 'charts-window',
       'bounds': {
-        'width': 200,
+        'width': 600,
         'height': 400,
         'left': 2,
         'top': screen.availHeight -445

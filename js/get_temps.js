@@ -45,7 +45,7 @@ function init() {
       'id': 'charts-window',
       'bounds': {
         'width': 600,
-        'height': 400,
+        'height': 900,
         'left': 2,
         'top': screen.availHeight -445
       },

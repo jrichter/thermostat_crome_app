@@ -1,6 +1,8 @@
 var forecast;
 var hourly_series;
-
+var hourly_real;
+var index_sunrise;
+var index_sunset;
 function get_forecast() {
   return $.ajax({
     url: 'http://5.jetfive.com',
@@ -11,6 +13,31 @@ function get_forecast() {
   }});
 };
 
+function decide_on_current_day(time,sun,index) { //pass in time to check against
+  var index = index || 0;
+  if (sun == "sunrise") {
+    time2 = forecast.daily.data[index].sunriseTime;
+  }
+  else {
+    time2 = forecast.daily.data[index].sunsetTime;
+  }
+
+  if (index > 8) {
+    console.log("failed");
+    index = 0;
+  }
+  else if (time < time2) {
+    console.log(index);
+    console.log("returning the index for " + sun);
+  }
+  else {
+    console.log("recursion");
+    index += 1;
+    decide_on_current_day(time,sun,index);
+  }
+  return index;
+ };
+
 function show_summary() {
   $('#summary').html(forecast.daily.summary);
 };
@@ -18,9 +45,10 @@ function show_summary() {
 function show_five_day() {
   html = []
   $.each(forecast.daily.data,function(index,value){
-    html.push('Max: ' + value.apparentTemperatureMax + 'Min: ' + value.apparentTemperatureMin + '</br>')
+    html.push('<tr><th>' +  + '</th></tr>')
+    html.push('<tr><td>Max: ' + value.apparentTemperatureMax + '</td><td>Min: ' + value.apparentTemperatureMin + '</td></tr>')
   });
-  $('#five-day').html(html.toString()); // need to join instead of just output the array as a string - loose commas
+  $('#five-day').html(html.join(" "));
 };
 
 function make_series_apparent(data) {
@@ -42,6 +70,8 @@ function make_series(data) {
 function make_chart() {
   hourly_series = make_series_apparent(forecast.hourly.data);
   hourly_real = make_series(forecast.hourly.data)
+  index_sunrise = decide_on_current_day(forecast.hourly.data[0].time,"sunrise",0)
+  index_sunset = decide_on_current_day(forecast.hourly.data[0].time,"sunset",0)
   var offset = (new Date(forecast.hourly.data[0].time * 1000).getTimezoneOffset() * 60 * 1000);
   $('#container').highcharts({
     chart: {
@@ -61,6 +91,14 @@ function make_chart() {
         text: 'Temperature'
       }
     },
+    plotOptions: {
+      series: {
+        marker: {
+          fillColor: 'none',
+          lineColor: null
+        }
+      }
+    },
     series: [{
       name: "Apparent Temp",
       data: hourly_series,
@@ -77,25 +115,25 @@ function make_chart() {
     {
       type: 'column',
       name: 'Sunrise',
-      pointStart: forecast.daily.data[0].sunriseTime * 1000 - offset,
+      pointStart: forecast.daily.data[index_sunrise].sunriseTime * 1000 - offset,
       data: [110]
      },
      {
       type: 'column',
       name: 'Sunset',
-      pointStart: forecast.daily.data[0].sunsetTime * 1000 - offset,
+      pointStart: forecast.daily.data[index_sunset].sunsetTime * 1000 - offset,
       data: [110]
      },
      {
       type: 'column',
       name: 'Sunrise',
-      pointStart: forecast.daily.data[1].sunriseTime * 1000 - offset,
+      pointStart: forecast.daily.data[(index_sunrise + 1)].sunriseTime * 1000 - offset,
       data: [110]
      },
      {
       type: 'column',
       name: 'Sunset',
-      pointStart: forecast.daily.data[1].sunsetTime * 1000 - offset,
+      pointStart: forecast.daily.data[(index_sunset + 1)].sunsetTime * 1000 - offset,
       data: [110]
      }
 ]
